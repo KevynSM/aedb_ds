@@ -3,7 +3,7 @@ from nodes import SingleListNode
 from tad_iterator import Iterator
 from exceptions import EmptyListException, InvalidPositionException, NoSuchElementException
 
-class SingleLinkedList(List):
+class SinglyLinkedList(List):
     def __init__(self):
         self.head = None          
         self.tail = None
@@ -36,6 +36,7 @@ class SingleLinkedList(List):
     # Returns the element at the specified position in the list.
     # Range of valid positions: 0, ..., size()-1.
     def get(self, position): # Done
+        if position < 0 or position > self.length-1: raise InvalidPositionException()
         var = self.head
         for i in range(0,self.length):            
             if i == position:
@@ -49,8 +50,9 @@ class SingleLinkedList(List):
     # occur in the list.    
     def find(self, element): # Done
         var = self.head
+        element_node = SingleListNode(element, None)
         for i in range(0,self.length):
-            if var.get_element() == element:
+            if var == element_node:
                 return i
             
            var = var.get_next()
@@ -120,6 +122,7 @@ class SingleLinkedList(List):
         if self.length == 0: raise EmptyListException()
         removed = self.tail 
         self.tail = get(length - 2)
+        self.tail.set_next(None)
 
         self.length -= 1
         return removed
