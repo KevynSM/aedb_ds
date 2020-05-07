@@ -1,7 +1,7 @@
-from tad_list import List
-from nodes import SingleListNode
-from tad_iterator import Iterator
-from exceptions import EmptyListException, InvalidPositionException, NoSuchElementException
+from .tad_list import List
+from .nodes import SingleListNode
+from .tad_iterator import Iterator
+from ..exceptions import EmptyListException, InvalidPositionException, NoSuchElementException
 
 class SinglyLinkedList(List):
     def __init__(self):
@@ -23,7 +23,7 @@ class SinglyLinkedList(List):
         if self.length == 0:
             raise EmptyListException()
         else:
-            return self.head
+            return self.head.get_element()
 
     # Returns the last element of the list.
     # Throws EmptyListException.    
@@ -31,11 +31,14 @@ class SinglyLinkedList(List):
         if self.length == 0:
             raise EmptyListException()
         else: 
-            return self.tail
+            return self.tail.get_element()
 
     # Returns the element at the specified position in the list.
     # Range of valid positions: 0, ..., size()-1.
-    def get(self, position): # Done
+    def get(self, position):
+        return self.get_helper(position).get_element()
+
+    def get_helper(self, position): # Done
         if position < 0 or position > self.length-1: raise InvalidPositionException()
         var = self.head
         for i in range(0,self.length):            
@@ -55,7 +58,7 @@ class SinglyLinkedList(List):
             if var == element_node:
                 return i
             
-           var = var.get_next()
+            var = var.get_next()
         return -1
 
     # Inserts the specified element at the first position in the list.    
@@ -97,7 +100,7 @@ class SinglyLinkedList(List):
             insert_last(element)
         else:
             element_node = SingleListNode(element, None)
-            var = get(position - 1)
+            var = self.get_helper(position - 1)
             temp = var.get_next()
 
             var.set_next(element_node)
@@ -121,7 +124,7 @@ class SinglyLinkedList(List):
     def remove_last(self): # Done     
         if self.length == 0: raise EmptyListException()
         removed = self.tail 
-        self.tail = get(length - 2)
+        self.tail = self.get_helper(self.length - 2)
         self.tail.set_next(None)
 
         self.length -= 1
@@ -138,7 +141,7 @@ class SinglyLinkedList(List):
             remove_last()
         else:
             removed = get(position)
-            var = get(position - 1)
+            var = get_helper(position - 1)
 
             var.set_next(removed.get_next())
 
@@ -153,6 +156,7 @@ class SinglyLinkedList(List):
 
     # Returns an iterator of the elements in the list (in proper sequence).    
     def iterator(self): 
-        i = l.Iterator()
-        while i.has_next():
-            e = i.next()
+        return SinglyLinkedListIterator(self)
+        # i = l.Iterator()
+        # while i.has_next():
+        #     e = i.next()
