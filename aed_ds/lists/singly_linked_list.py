@@ -35,11 +35,16 @@ class SinglyLinkedList(List):
 
     # Returns the element at the specified position in the list.
     # Range of valid positions: 0, ..., size()-1.
-    def get(self, position):
+    def get(self, position):        
+        if position == 0:
+            return self.get_first()
+        elif position == self.length-1:
+            return self.get_last()
+        elif position < 0 or position > self.length-1:
+            raise EmptyListException()
         return self.get_helper(position).get_element()
 
-    def get_helper(self, position): # Done
-        if position < 0 or position > self.length-1: raise InvalidPositionException()
+    def get_helper(self, position): # Done        
         var = self.head
         for i in range(0,self.length):            
             if i == position:
@@ -52,10 +57,9 @@ class SinglyLinkedList(List):
     # or -1 if the specified element does not
     # occur in the list.    
     def find(self, element): # Done
-        var = self.head
-        element_node = SingleListNode(element, None)
+        var = self.head        
         for i in range(0,self.length):
-            if var == element_node:
+            if var.get_element() == element:
                 return i
             
             var = var.get_next()
@@ -95,9 +99,9 @@ class SinglyLinkedList(List):
     def insert(self, element, position): # Done
         if position < 0 or position > self.length: raise InvalidPositionException()
         if position == 0:
-            insert_first(element)
+            self.insert_first(element)
         elif position == self.length:
-            insert_last(element)
+            self.insert_last(element)
         else:
             element_node = SingleListNode(element, None)
             var = self.get_helper(position - 1)
@@ -125,28 +129,28 @@ class SinglyLinkedList(List):
         if self.length == 0: raise EmptyListException()
         removed = self.tail 
         self.tail = self.get_helper(self.length - 2)
-        self.tail.set_next(None)
+        
 
         self.length -= 1
-        return removed
+        return removed.get_element()
         
     # Removes and returns the element at the specified position in the list.
     # Range of valid positions: 0, ..., size()-1.
     # Throws InvalidPositionException.    
     def remove(self, position): # Done
-        if position < 0 or position > self.length: raise InvalidPositionException()
+        if position < 0 or position >= self.length: raise InvalidPositionException()
         if position == 0:
-            remove_first()
+            return self.remove_first().get_element()
         elif position == self.length:
-            remove_last()
+            return self.remove_last().get_element()
         else:
-            removed = get(position)
-            var = get_helper(position - 1)
+            removed = self.get_helper(position)
+            var = self.get_helper(position - 1)
 
             var.set_next(removed.get_next())
 
             self.length -= 1
-            return removed
+            return removed.get_element()
 
     # Removes all elements from the list.    
     def make_empty(self): # Done
