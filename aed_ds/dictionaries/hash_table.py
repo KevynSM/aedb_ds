@@ -28,7 +28,7 @@ class HashTable(Dictionary):
         it = colision_list.iterator()
         while it.has_next():
             current_item = it.next()
-            if current_item.get_key == k:
+            if current_item.get_key() == k:
                 return current_item.get_value()
 
         raise NoSuchElementException()
@@ -56,7 +56,7 @@ class HashTable(Dictionary):
         it = colision_list.iterator()
         while it.has_next():
             current_item = it.next()
-            if current_item.get_key == k:
+            if current_item.get_key() == k:
                 current_item.set_value(v)
 
         raise NoSuchElementException()
@@ -68,8 +68,9 @@ class HashTable(Dictionary):
         it = colision_list.iterator()
         while it.has_next():
             current_item = it.next()
-            if current_item.get_key == k:
+            if current_item.get_key() == k:
                 current_item.remove()
+                self.num_elements -= 1
 
         raise NoSuchElementException()
 
@@ -80,7 +81,7 @@ class HashTable(Dictionary):
             colision_list = i
             it = colision_list.iterator()
             while it.has_next():
-                current_item = item.next()
+                current_item = it.next()
                 list_keys.insert_last(current_item.get_key())
 
         return list_keys
@@ -92,7 +93,7 @@ class HashTable(Dictionary):
             colision_list = i
             it = colision_list.iterator()
             while it.has_next():
-                current_item = item.next()
+                current_item = it.next()
                 list_values.insert_last(current_item.get_value())
 
         return list_values
@@ -105,7 +106,7 @@ class HashTable(Dictionary):
             it = colision_list.iterator()
             while it.has_next():
                 list_pairs = SinglyLinkedList()
-                current_item = item.next()
+                current_item = it.next()
                 list_pairs.insert_last(current_item.get_key())
                 list_pairs.insert_last(current_item.get_value())
             
