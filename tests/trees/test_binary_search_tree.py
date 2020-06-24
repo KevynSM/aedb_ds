@@ -96,7 +96,7 @@ class TestBinarySearchTree(unittest.TestCase):
 
     def test_get_min_element(self):
         with self.assertRaises(EmptyTreeException):
-            self.tree.test_get_min_element()
+            self.tree.get_min_element()
         self.tree.insert(2, "value_2")
         self.tree.insert(5, "value_5")
         self.tree.insert(3, "value_3")
@@ -106,7 +106,7 @@ class TestBinarySearchTree(unittest.TestCase):
 
     def test_get_max_element(self):
         with self.assertRaises(EmptyTreeException):
-            self.tree.test_get_max_element()
+            self.tree.get_max_element()
         self.tree.insert(2, "value_2")
         self.tree.insert(5, "value_5")
         self.tree.insert(3, "value_3")
@@ -118,16 +118,16 @@ class TestBinarySearchTree(unittest.TestCase):
         with self.assertRaises(EmptyTreeException):
             self.tree.get_root()
         self.tree.insert(5, "value_5")
-        self.assertEqual(self.tree.get_root(), "value_5")
+        self.assertEqual(self.tree.get_root().get_element(), "value_5")
         self.tree.insert(2, "value_2")
         self.tree.insert(1, "value_1")
         self.tree.insert(3, "value_3")
         self.tree.insert(7, "value_7")
         self.tree.insert(6, "value_6")
         self.tree.insert(8, "value_8")
-        self.assertEqual(self.tree.get_root(), "value_5")
+        self.assertEqual(self.tree.get_root().get_element(), "value_5")
         self.tree.remove(5)
-        self.assertEqual(self.tree.get_root(), "value_6")
+        self.assertEqual(self.tree.get_root().get_element(), "value_6")
 
     def test_height(self):
         with self.assertRaises(EmptyTreeException):
