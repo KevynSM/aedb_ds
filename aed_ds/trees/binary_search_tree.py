@@ -82,45 +82,37 @@ class BinarySearchTree(OrderedDictionary, Tree):
 
     def remove_aux(self, root, k):
         if root is None:
-            raise NoSuchElementException()
+            #raise NoSuchElementException()
+            return root
+        if root.get_key() > k:
+            root.left_child = self.remove_aux(root.get_left_child(), k)
+        elif root.get_key() < k:
+            root.right_child = self.remove_aux(root.get_right_child(), k)
         else:
             if root.is_leaf():
-                if self.get_father(root, k).get_left_child().get_key() == k:
-                    self.get_father(root, k).set_left_child(None)
-                elif self.get_father(root, k).get_right_child().get_key() == k:
-                    self.get_father(root, k).set_right_child(None)
-                #return root
+                root = None
+            elif root.get_left_child() == None:                
+                root = self.get_min_node(root.right_child)
             elif root.get_right_child() == None:
                 root = root.get_left_child()
-                #return root
-            elif root.get_left_child() == None:
-                # looking for the new root
-                new_root = self.get_min_node(root.get_right_child())
-                # remove the new root for the old position
-                self.get_father(root, new_root.get_key()).set_left_child(None)
-                # copy the child
-                new_root.set_right_child(root.get_right_child())
-                # set the root to be the new root
-                root = new_root
-                #return root
-            
             else:
-                if root.get_key() < k:
-                    root = self.remove_aux(root.get_left_child(), k)
-                elif root.get_key() > k:
-                    root = self.remove_aux(root.get_right_child(), k)
+                root = self.get_min_node(root.get_right_child())                
+                root.set_right_child(self.remove_aux(root.get_right_child(), root.get_key()))
+                
+
+            
         return root
 
     
   
-    def get_father(self, root, k):
-        if root.get_right_child().get_key() == k or root.get_left_child().get_key() == k:
-            return root        
-        else:
-            if root.get_key() > k:
-                self.get_father(root.left_child(), k)                
-            elif root.get_key() < k:
-                self.get_father(root.right_child(), k)
+    # def get_father(self, root, k):
+    #     if root.is_leaf():
+    #         return root        
+    #     else:
+    #         if root.get_key() > k:
+    #             self.get_father(root.left_child(), k)                
+    #         elif root.get_key() < k:
+    #             self.get_father(root.right_child(), k)
 
 
     
